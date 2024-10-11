@@ -1,3 +1,5 @@
+const { BadRequestError } = require("../../errors");
+
 class LoginUseCase {
   constructor(userRepositoryImpl, bcrypt, jwt, secret) {
     this.userRepository = userRepositoryImpl;
@@ -10,11 +12,11 @@ class LoginUseCase {
     const user = await this.userRepository.findByEmail(email);
 
     if (!user) {
-      throw new Error("Invalid email or password");
+      throw new BadRequestError("Invalid email or password");
     }
 
     if (!user.verifyPassword(password, this.bcrypt)) {
-      throw new Error("Invalid email or password");
+      throw new BadRequestError("Invalid email or password");
     }
 
     return user.generateToken(this.jwt, this.secret);

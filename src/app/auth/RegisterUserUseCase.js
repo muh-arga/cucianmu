@@ -1,4 +1,5 @@
 const User = require("../../domain/user/User");
+const { BadRequestError } = require("../../errors");
 
 class RegisterUserUseCase {
   constructor(userRepositoryImpl, bcrypt, jwt, secret) {
@@ -11,7 +12,7 @@ class RegisterUserUseCase {
   async execute(data) {
     const existingUser = await this.userRepository.findByEmail(data.email);
     if(existingUser){
-      throw new Error("User with this email already exists");
+      throw new BadRequestError("User with this email already exists");
     }
 
     const hashedPassword = await User.hashPassword(data.password, this.bcrypt);

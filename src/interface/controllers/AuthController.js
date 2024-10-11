@@ -9,7 +9,7 @@ class AuthController {
     this.updateUserUseCase = updateUserUseCase;
   }
 
-  async login(req, res) {
+  async login(req, res, next) {
     const { email, password } = req.body;
 
     try {
@@ -21,11 +21,11 @@ class AuthController {
         },
       });
     } catch (error) {
-      return res.status(401).json({ message: error.message });
+      next(error);
     }
   }
 
-  async register(req, res) {
+  async register(req, res, next) {
     const data = req.body;
 
     // validate
@@ -43,26 +43,29 @@ class AuthController {
         },
       });
     } catch (error) {
-      console.log(error);
-      return res.status(400).json({ message: error.message });
+      next(error);
     }
   }
 
-  async getLoggedInUser(req, res) {
-    const image = req.user.image;
-    const imageUrl = image
-      ? `${req.protocol}://${req.get("host")}/uploads/${image}`
-      : null;
+  async getLoggedInUser(req, res, next) {
+    try {
+      const image = req.user.image;
+      const imageUrl = image
+        ? `${req.protocol}://${req.get("host")}/uploads/${image}`
+        : null;
 
-    req.user = { ...req.user, image: imageUrl };
+      req.user = { ...req.user, image: imageUrl };
 
-    return res.status(200).json({
-      message: "User information retrivied successfully",
-      data: req.user,
-    });
+      return res.status(200).json({
+        message: "User information retrivied successfully",
+        data: req.user,
+      });
+    } catch (error) {
+      next(error);
+    }
   }
 
-  async updateProfile(req, res) {
+  async updateProfile(req, res, next) {
     const data = req.body;
     const { id } = req.user;
     const image = req.file ? req.file.filename : null;
@@ -103,15 +106,15 @@ class AuthController {
         data: user,
       });
     } catch (error) {
-      return res.status(400).json({ message: error.message });
+      next(error);
     }
   }
 
-  async logout(req, res) {
+  async logout(req, res, next) {
     try {
       return res.status(200).json({ message: "User logged out successfully" });
     } catch (error) {
-      return res.status(400).json({ message: error.message });
+      next(error);
     }
   }
 }

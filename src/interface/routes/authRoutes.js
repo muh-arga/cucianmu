@@ -37,10 +37,10 @@ const updateUserUseCase = new UpdateUserUseCase(
 const authController = new AuthController(loginUseCase, registerUserUseCase, updateUserUseCase);
 
 // Routes
-router.post("/login", (req, res) => authController.login(req, res));
-router.post("/register", (req, res) => authController.register(req, res));
-router.get("/me", authMiddleware, (req, res) => authController.getLoggedInUser(req, res));
-router.put("/me", authMiddleware, upload.single("image"), (req, res) => authController.updateProfile(req, res));
-router.get("/logout", authMiddleware, (req, res) => authController.logout(req, res));
+router.post("/login", (req, res, next) => authController.login(req, res, next));
+router.post("/register", (req, res, next) => authController.register(req, res, next));
+router.get("/me", authMiddleware, (req, res, next) => authController.getLoggedInUser(req, res, next));
+router.put("/me", authMiddleware, upload.single("image"), (req, res, next) => authController.updateProfile(req, res, next));
+router.get("/logout", authMiddleware, (req, res, next) => authController.logout(req, res, next));
 
 module.exports = router

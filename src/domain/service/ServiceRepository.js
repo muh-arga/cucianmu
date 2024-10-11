@@ -1,10 +1,9 @@
-class UserRepository {
-  
+class ServiceRepository {
   async findById(id) {
     throw new Error("Method not implemented");
   }
 
-  async findByEmail(email) {
+  async findByUserId(userId) {
     throw new Error("Method not implemented");
   }
 
@@ -12,13 +11,17 @@ class UserRepository {
     throw new Error("Method not implemented");
   }
 
-  async save(user) {
+  async save(service) {
     throw new Error("Method not implemented");
   }
 
   async update(id, data) {
     throw new Error("Method not implemented");
   }
+
+  async delete(id) {
+    throw new Error("Method not implemented");
+  }
 }
 
-module.exports = UserRepository;
+module.exports = ServiceRepository;

@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Service" ALTER COLUMN "estimate" DROP NOT NULL,
+ALTER COLUMN "ironed" DROP NOT NULL;

@@ -3,10 +3,13 @@ const express = require("express")
 const cors = require("cors")
 const path = require("path")
 
+const errorHandler = require("./interface/middleware/errorHandleMiddleware")
+
 const app = express()
 
 // routes
 const authRoutes = require("./interface/routes/authRoutes")
+const serviceRoutes = require("./interface/routes/serviceRoutes")
 
 app.use(cors())
 app.use(express.json())
@@ -20,6 +23,10 @@ app.use((err, req, res, next) => {
 })
 
 app.use("/api/auth", authRoutes)
+app.use("/api", serviceRoutes)
+
+// Error handler middleware
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

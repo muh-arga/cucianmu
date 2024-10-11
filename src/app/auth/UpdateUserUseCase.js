@@ -1,3 +1,5 @@
+const { NotFoundError } = require("../../errors");
+
 class UpdateUserUseCase {
   constructor(userRepositoryImpl) {
     this.userRepository = userRepositoryImpl;
@@ -7,7 +9,7 @@ class UpdateUserUseCase {
     const user = await this.userRepository.findById(id);
 
     if (!user) {
-      throw new Error("User not found");
+      throw new NotFoundError("User not found");
     }
 
     const updatedUser = await this.userRepository.update(id, data);
@@ -19,7 +21,7 @@ class UpdateUserUseCase {
     const user = await this.userRepository.findById(id);
 
     if (!user) {
-      throw new Error("User not found");
+      throw new NotFoundError("User not found");
     }
 
     return user;

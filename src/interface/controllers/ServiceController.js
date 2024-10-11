@@ -17,7 +17,7 @@ class ServiceController {
 
   async addService(req, res, next) {
     const data = req.body;
-    const userId = req.user.id;
+    const merchantId = req.user.id;
 
     const { error } = addServiceSchema.validate(data);
     if (error) {
@@ -25,7 +25,7 @@ class ServiceController {
     }
 
     try {
-      data.userId = userId;
+      data.merchantId = merchantId;
       const service = await this.addServiceUseCase.execute(data);
       return res.status(201).json(service);
     } catch (error) {
@@ -35,7 +35,7 @@ class ServiceController {
 
   async updateService(req, res, next) {
     const data = req.body;
-    const userId = req.user.id;
+    const merchantId = req.user.id;
     const { serviceId } = req.params;
 
     const { error } = addServiceSchema.validate(data);
@@ -46,7 +46,7 @@ class ServiceController {
     try {
       const service = await this.updateServiceUseCase.execute(
         serviceId,
-        userId,
+        merchantId,
         data
       );
       return res.status(200).json({
@@ -59,10 +59,10 @@ class ServiceController {
   }
 
   async getServiceByUserId(req, res, next) {
-    const userId = req.user.id;
+    const merchantId = req.user.id;
 
     try {
-      const services = await this.getServiceByUserIdUseCase.execute(userId);
+      const services = await this.getServiceByUserIdUseCase.execute(merchantId);
       return res.status(200).json(services);
     } catch (error) {
       next(error);
@@ -85,12 +85,12 @@ class ServiceController {
 
   async deleteService(req, res, next) {
     const { serviceId } = req.params;
-    const userId = req.user.id;
+    const merchantId = req.user.id;
 
     try {
       const service = await this.deleteServiceUseCase.execute(
         serviceId,
-        userId
+        merchantId
       );
       return res.status(200).json({
         message: "Service deleted successfully",

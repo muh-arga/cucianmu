@@ -5,14 +5,14 @@ class UpdateServiceUseCase {
     this.serviceRepository = serviceRepositoryImpl
   }
 
-  async execute(id, userId, data) {
+  async execute(id, merchantId, data) {
     const service = await this.serviceRepository.findById(id)
 
     if (!service) {
       throw new NotFoundError('Service not found')
     }
 
-    if(!service.verifyUser(userId)) {
+    if(!service.verifyUser(merchantId)) {
       throw new ForbiddenError('Forbidden', 403)
     }
 

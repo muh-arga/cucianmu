@@ -1,17 +1,17 @@
 class Service {
-  constructor(id, userId, name, type, price, estimate = null, ironed = null, user) {
+  constructor(id, merchantId, name, type, price, estimate = null, ironed = null, merchant) {
     this.id = id
-    this.userId = userId
+    this.merchantId = merchantId
     this.name = name
     this.type = type
     this.price = price
     this.estimate = estimate
     this.ironed = ironed
-    this.user = user
+    this.merchant = merchant
   }
 
   verifyUser(id) {
-    return this.userId === id
+    return this.merchantId === id
   }
 }
 

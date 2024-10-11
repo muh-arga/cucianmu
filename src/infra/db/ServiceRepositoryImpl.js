@@ -11,29 +11,29 @@ class ServiceRepositoryImpl extends ServiceRepository {
     const service = await this.prisma.service.findUnique({
       where: { id },
       include: {
-        user: true,
+        merchant: true,
       },
     });
 
     return service
       ? new Service(
           service.id,
-          service.userId,
+          service.merchantId,
           service.name,
           service.type,
           service.price,
           service.estimate,
           service.ironed,
-          service.user
+          service.merchant
         )
       : null;
   }
 
   async findByUserId(id) {
     const services = await this.prisma.service.findMany({
-      where: { userId: id },
+      where: { merchantId: id },
       include: {
-        user: true,
+        merchant: true,
       },
     });
 
@@ -41,13 +41,13 @@ class ServiceRepositoryImpl extends ServiceRepository {
       (service) =>
         new Service(
           service.id,
-          service.userId,
+          service.merchantId,
           service.name,
           service.type,
           service.price,
           service.estimate,
           service.ironed,
-          service.user
+          service.merchant
         )
     );
   }
@@ -55,7 +55,7 @@ class ServiceRepositoryImpl extends ServiceRepository {
   async findAll() {
     const services = await this.prisma.service.findMany({
       include: {
-        user: true,
+        merchant: true,
       },
     });
 
@@ -63,13 +63,13 @@ class ServiceRepositoryImpl extends ServiceRepository {
       (service) =>
         new Service(
           service.id,
-          service.userId,
+          service.merchantId,
           service.name,
           service.type,
           service.price,
           service.estimate,
           service.ironed,
-          service.user
+          service.merchant
         )
     );
   }
@@ -77,7 +77,7 @@ class ServiceRepositoryImpl extends ServiceRepository {
   async save(service) {
     const newService = await this.prisma.service.create({
       data: {
-        userId: service.userId,
+        merchantId: service.merchantId,
         name: service.name,
         type: service.type,
         price: service.price,
@@ -88,13 +88,13 @@ class ServiceRepositoryImpl extends ServiceRepository {
 
     return new Service(
       newService.id,
-      newService.userId,
+      newService.merchantId,
       newService.name,
       newService.type,
       newService.price,
       newService.estimate,
       newService.ironed,
-      newService.user
+      newService.merchant
     );
   }
 
@@ -112,13 +112,13 @@ class ServiceRepositoryImpl extends ServiceRepository {
 
     return new Service(
       updatedService.id,
-      updatedService.userId,
+      updatedService.merchantId,
       updatedService.name,
       updatedService.type,
       updatedService.price,
       updatedService.estimate,
       updatedService.ironed,
-      updatedService.user
+      updatedService.merchant
     );
   }
 

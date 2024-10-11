@@ -3,8 +3,8 @@ class GetServiceByUserIdUseCase {
     this.serviceRepository = serviceRepositoryImpl;
   }
 
-  async execute(userId) {
-    return await this.serviceRepository.findByUserId(userId);
+  async execute(merchantId) {
+    return await this.serviceRepository.findByUserId(merchantId);
   }
 }
 

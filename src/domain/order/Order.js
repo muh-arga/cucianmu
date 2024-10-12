@@ -4,6 +4,7 @@ class Order {
     number,
     status,
     merchantId,
+    merchant = null,
     customerName = null,
     customerPhone = null,
     estDone = null,
@@ -21,6 +22,7 @@ class Order {
     this.number = number;
     this.status = status;
     this.merchantId = merchantId;
+    this.merchant = merchant;
     this.customerName = customerName;
     this.customerPhone = customerPhone;
     this.estDone = estDone;

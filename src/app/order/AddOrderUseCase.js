@@ -4,7 +4,7 @@ class AddOrderUseCase {
   }
 
   async execute(data) {
-    const latest = await this.orderRepository.findLatest(data.merchantId);
+    const latest = await this.orderRepository.findLatest();
     if (!latest) {
       data.number = "00000001";
     } else {

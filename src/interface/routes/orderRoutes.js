@@ -9,6 +9,7 @@ const GetOrderByIdUseCase = require("../../app/order/GetOrderByIdUseCase");
 const GetOrderByUserIdUseCase = require("../../app/order/GetOrderByUserIdUseCase");
 const UpdateOrderStatusUseCase = require("../../app/order/UpdateOrderStatusUseCase");
 const UpdateOrderUseCase = require("../../app/order/UpdateOrderUseCase");
+const TrackOrderUseCase = require("../../app/order/TrackOrderUseCase");
 const OrderRepositoryImpl = require("../../infra/db/OrderRepositoryImpl");
 
 // Middleware
@@ -26,6 +27,7 @@ const getOrderByIdUseCase = new GetOrderByIdUseCase(orderRepository);
 const getOrderByUserIdUseCase = new GetOrderByUserIdUseCase(orderRepository);
 const updateOrderStatusUseCase = new UpdateOrderStatusUseCase(orderRepository);
 const updateOrderUseCase = new UpdateOrderUseCase(orderRepository);
+const trackOrderUseCase = new TrackOrderUseCase(orderRepository);
 const orderController = new OrderController(
   addOrderUseCase,
   deleteOrderUseCase,
@@ -33,7 +35,8 @@ const orderController = new OrderController(
   getOrderByIdUseCase,
   getOrderByUserIdUseCase,
   updateOrderStatusUseCase,
-  updateOrderUseCase
+  updateOrderUseCase,
+  trackOrderUseCase
 );
 
 // Routes
@@ -57,6 +60,9 @@ router.put("/order/done/:orderId", authMiddleware, (req, res, next) =>
 );
 router.get("/order/status/:orderId", authMiddleware, (req, res, next) =>
   orderController.updateStatus(req, res, next)
+);
+router.post("/orders/track", (req, res, next) =>
+  orderController.trackOrder(req, res, next)
 );
 
 module.exports = router;

@@ -11,7 +11,8 @@ class OrderController {
     getOrderByIdUseCase,
     getOrderByUserIdUseCase,
     updateOrderStatusUseCase,
-    updateOrderUseCase
+    updateOrderUseCase,
+    trackOrderUseCase
   ) {
     this.addOrderUseCase = addOrderUseCase;
     this.deleteOrderUseCase = deleteOrderUseCase;
@@ -20,6 +21,7 @@ class OrderController {
     this.getOrderByUserIdUseCase = getOrderByUserIdUseCase;
     this.updateOrderStatusUseCase = updateOrderStatusUseCase;
     this.updateOrderUseCase = updateOrderUseCase;
+    this.trackOrderUseCase = trackOrderUseCase;
   }
 
   async addOrder(req, res, next) {
@@ -145,6 +147,20 @@ class OrderController {
       await this.deleteOrderUseCase.execute(orderId, merchantId);
       return res.status(200).json({
         message: "Order deleted successfully",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async trackOrder(req, res, next) {
+    const data = req.body;
+
+    try {
+      const order = await this.trackOrderUseCase.execute(data);
+      return res.status(200).json({
+        message: "Order tracked successfully",
+        data: order,
       });
     } catch (error) {
       next(error);

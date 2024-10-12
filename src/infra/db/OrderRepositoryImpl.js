@@ -45,6 +45,7 @@ class OrderRepositoryImpl extends OrderRepository {
     const order = await this.prisma.order.findUnique({
       where: { number },
       include: {
+        merchant: true,
         items: {
           include: {
             service: true,
@@ -59,6 +60,7 @@ class OrderRepositoryImpl extends OrderRepository {
           order.number,
           order.status,
           order.merchantId,
+          order.merchant,
           order.customerName,
           order.customerPhone,
           order.estDone,
@@ -143,10 +145,9 @@ class OrderRepositoryImpl extends OrderRepository {
     );
   }
 
-  async findLatest(merchantId) {
+  async findLatest() {
     const order = await this.prisma.$queryRaw`
       SELECT * FROM "Order"
-      WHERE "merchantId" = ${merchantId}
       ORDER BY CAST("number" AS INTEGER) DESC
       LIMIT 1;
     `;

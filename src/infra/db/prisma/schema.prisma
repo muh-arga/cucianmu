@@ -23,25 +23,40 @@ model User {
   image     String?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  services   Service[]
+  services  Service[]
+  orders    Order[]
 }
 
 model Service {
-  id        String   @id @default(uuid())
-  merchantId    String
-  merchant      User     @relation(fields: [merchantId], references: [id])
-  name      String
-  type      String
-  price     Int
-  estimate  String?
-  ironed    Boolean?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String   @id @default(uuid())
+  merchantId String
+  merchant   User     @relation(fields: [merchantId], references: [id])
+  name       String
+  type       String
+  price      Int
+  estimate   String?
+  ironed     Boolean?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model Order {
-  id       String   @id @default(uuid())
-  number   Int      @unique
-  status   Int
+  id            String    @id @default(uuid())
+  number        String
+  status        Int       @default(1)
+  merchantId    String
+  merchant      User      @relation(fields: [merchantId], references: [id])
+  customerName  String?
+  customerPhone String?
+  estDone       DateTime?
+  doneAt        DateTime?
+  paymentStatus Int?
+  paymentMethod String?
+  total         Int?
+  paid          Int?
+  returned      Int?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
+  @@unique([number, merchantId])
 }

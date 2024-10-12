@@ -10,6 +10,7 @@ const app = express()
 // routes
 const authRoutes = require("./interface/routes/authRoutes")
 const serviceRoutes = require("./interface/routes/serviceRoutes")
+const orderRoutes = require("./interface/routes/orderRoutes")
 
 app.use(cors())
 app.use(express.json())
@@ -24,6 +25,7 @@ app.use((err, req, res, next) => {
 
 app.use("/api/auth", authRoutes)
 app.use("/api", serviceRoutes)
+app.use("/api", orderRoutes)
 
 // Error handler middleware
 app.use(errorHandler)

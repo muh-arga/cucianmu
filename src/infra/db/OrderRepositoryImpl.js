@@ -10,6 +10,13 @@ class OrderRepositoryImpl extends OrderRepository {
   async findById(id) {
     const order = await this.prisma.order.findUnique({
       where: { id },
+      include: {
+        items: {
+          include: {
+            service: true,
+          },
+        },
+      },
     });
 
     return order
@@ -27,6 +34,7 @@ class OrderRepositoryImpl extends OrderRepository {
           order.total,
           order.paid,
           order.returned,
+          order.items,
           order.createdAt,
           order.updatedAt
         )
@@ -36,6 +44,13 @@ class OrderRepositoryImpl extends OrderRepository {
   async findByNumber(number) {
     const order = await this.prisma.order.findUnique({
       where: { number },
+      include: {
+        items: {
+          include: {
+            service: true,
+          },
+        },
+      },
     });
 
     return order
@@ -53,6 +68,7 @@ class OrderRepositoryImpl extends OrderRepository {
           order.total,
           order.paid,
           order.returned,
+          order.items,
           order.createdAt,
           order.updatedAt
         )
@@ -62,6 +78,13 @@ class OrderRepositoryImpl extends OrderRepository {
   async findByUserId(merchantId) {
     const orders = await this.prisma.order.findMany({
       where: { merchantId },
+      include: {
+        items: {
+          include: {
+            service: true,
+          },
+        },
+      },
     });
 
     return orders.map(
@@ -80,6 +103,7 @@ class OrderRepositoryImpl extends OrderRepository {
           order.total,
           order.paid,
           order.returned,
+          order.items,
           order.createdAt,
           order.updatedAt
         )
@@ -87,7 +111,15 @@ class OrderRepositoryImpl extends OrderRepository {
   }
 
   async findAll() {
-    const orders = await this.prisma.order.findMany();
+    const orders = await this.prisma.order.findMany({
+      include: {
+        items: {
+          include: {
+            service: true,
+          },
+        },
+      },
+    });
     return orders.map(
       (order) =>
         new Order(
@@ -104,6 +136,7 @@ class OrderRepositoryImpl extends OrderRepository {
           order.total,
           order.paid,
           order.returned,
+          order.items,
           order.createdAt,
           order.updatedAt
         )

@@ -27,6 +27,8 @@ class DoneOrderUseCase {
     data.status = 5;
     data.doneAt = new Date().toISOString();
 
+    data.returned = data.paid - order.total;
+
     return await this.orderRepository.update(orderId, data);
   }
 }

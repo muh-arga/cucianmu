@@ -13,6 +13,7 @@ class Order {
     total = null,
     paid = null,
     retuned = null,
+    items = [],
     createdAt,
     updatedAt = null
   ) {
@@ -29,6 +30,7 @@ class Order {
     this.total = total;
     this.paid = paid;
     this.retuned = retuned;
+    this.items = items;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
   }

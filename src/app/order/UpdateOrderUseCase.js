@@ -18,6 +18,10 @@ class UpdateOrderUseCase {
     const estDone = new Date(orderData.estDone);
     orderData.estDone = estDone.toISOString();
 
+    if(orderData.paid) {
+      orderData.returned = orderData.paid - order.total;
+    }
+
     const updatedOrder = await this.orderRepository.update(orderId, orderData);
     return updatedOrder;
   }

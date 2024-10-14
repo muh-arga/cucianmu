@@ -1,4 +1,3 @@
-const prisma = require("./prisma/prismaClient");
 const UserRepository = require("../../domain/user/UserRepository");
 const User = require("../../domain/user/User");
 
@@ -9,7 +8,7 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   async findById(id) {
-    const user = await prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: { id },
     });
 
@@ -27,7 +26,7 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   async findByEmail(email) {
-    const user = await prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: { email },
     });
 
@@ -45,7 +44,7 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   async findAll() {
-    const users = await prisma.user.findMany();
+    const users = await this.prisma.user.findMany();
     return users.map(
       (user) =>
         new User(
@@ -61,7 +60,7 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   async save(user) {
-    const newUser = await prisma.user.create({
+    const newUser = await this.prisma.user.create({
       data: {
         email: user.email,
         name: user.name,
@@ -82,13 +81,14 @@ class UserRepositoryImpl extends UserRepository {
   }
 
   async update(id, data) {
-    const updatedUser = await prisma.user.update({
+    const updatedUser = await this.prisma.user.update({
       where: { id },
       data: {
         name: data.name,
         phone: data.phone,
         address: data.address,
         image: data.image,
+        password: data.password,
       }
     });
 
@@ -99,7 +99,7 @@ class UserRepositoryImpl extends UserRepository {
       updatedUser.password,
       updatedUser.phone,
       updatedUser.address,
-      updatedUser.image
+      updatedUser.image,
     );
   }
 }

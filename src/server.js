@@ -12,6 +12,7 @@ const authRoutes = require("./interface/routes/authRoutes");
 const serviceRoutes = require("./interface/routes/serviceRoutes");
 const orderRoutes = require("./interface/routes/orderRoutes");
 const itemRoutes = require("./interface/routes/itemRoutes");
+const userRoutes = require("./interface/routes/userRoutes");
 
 app.use(cors());
 app.use(express.json());
@@ -28,6 +29,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api", serviceRoutes);
 app.use("/api", orderRoutes);
 app.use("/api/item", itemRoutes);
+app.use("/api", userRoutes);
 
 // Error handler middleware
 app.use(errorHandler);

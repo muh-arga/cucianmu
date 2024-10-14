@@ -25,6 +25,18 @@ model User {
   updatedAt DateTime  @updatedAt
   services  Service[]
   orders    Order[]
+  Token     Token[]
+}
+
+model Token {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  token     String   @unique
+  expiresAt DateTime
+  type      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Service {
